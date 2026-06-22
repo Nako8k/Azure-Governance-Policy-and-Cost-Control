@@ -47,7 +47,7 @@ azure-governance-lab/
 
 ## Part 1 — Management Groups
 
-I created a Management Group above the subscription to enable governance controls at scale. Due to subscription limitations, I used the Root Management Group instead to apply and demonstrate the required controls.
+I created a Management Group above the subscription to enable governance controls at scale. Due to subscription limitations, I used the **Root Management Group** instead to apply and demonstrate the required controls.
 
 | Detail              | Value                      |
 | ------------------- | -------------------------- |
@@ -59,7 +59,7 @@ I created a Management Group above the subscription to enable governance control
 
 1. Navigated to **Management group** → **+ Create**
 2. Name: **Kawana Mg** 
-3. Needed to be assigned as Parent management group 
+3. Assign as Parent management group 
 
 <img src="https://imgur.com/93hwiU4.png" height="80%" width="80%" alt=""/>
 
@@ -73,7 +73,7 @@ I wrote and assigned three policy definitions scoped to the Management Group, en
 
 **Tag Enforcement Policy**
 
-This policy required a specified tag (e.g. `Environment`) to be present on all resources. Resources missing the tag were denied at deployment time.
+This policy required a specified tag `Environment` to be present on all resources. Resources missing the tag were denied at deployment time.
 
 | Detail           | Value                          |
 | ---------------- | ------------------------------ |
@@ -85,11 +85,13 @@ This policy required a specified tag (e.g. `Environment`) to be present on all r
 
 <img src="https://imgur.com/wspwaUR.png" height="80%" width="80%" alt=""/>
 
+Here are the results of non-compliance with the policy.
+
 <img src="https://imgur.com/emuQA8d.png" height="80%" width="80%" alt=""/>
 
 ---
 
-**VM** SKU Restriction Policy
+**VM SKU Restriction Policy**
 
 This policy restricted which VM sizes could be deployed within the subscription, preventing use of expensive or unapproved SKUs.
 
@@ -103,11 +105,13 @@ This policy restricted which VM sizes could be deployed within the subscription,
 
 <img src="https://imgur.com/b1NHYMr.png" height="80%" width="80%" alt=""/>
 
+Same as before the results of non-compliance with the policy `Allowed Virtual Machine size SKUs` as well as `Require a tag on resource`.
+
 <img src="https://imgur.com/r0vGHZy.png" height="80%" width="80%" alt=""/>
 
 ---
 
-### 2c — Region Lock Policy
+**Region Lock Policy** 
 
 This policy denied deployments to any region outside of an approved list, ensuring resources stayed within the designated geography.
 
@@ -120,6 +124,8 @@ This policy denied deployments to any region outside of an approved list, ensuri
 <img src="https://imgur.com/QexasyM.png" height="80%" width="80%" alt=""/>
 
 <img src="https://imgur.com/yIkExFH.png" height="80%" width="80%" alt=""/>
+
+This message is displayed when the resource is not located in either the `australiaeast` or `australiasoutheast` regions.
 
 <img src="https://imgur.com/QLLRFHi.png" height="80%" width="80%" alt=""/>
 
@@ -138,6 +144,8 @@ I applied resource locks to protect critical resources from accidental deletion 
 
 <img src="https://imgur.com/bsz7eIF.png" height="80%" width="80%" alt=""/>
 
+Effects of attempting to modify resource locks
+
 <img src="https://imgur.com/jXbeSsB.png" height="80%" width="80%" alt=""/>
 
 <img src="https://imgur.com/JQb3C7b.png" height="80%" width="80%" alt=""/>
@@ -150,21 +158,19 @@ I created a budget in Azure Cost Management with three alert thresholds to track
 
 | Detail              | Value                        |
 | ------------------- | ---------------------------- |
-| **Budget Name**     | `[Your Budget Name]`         |
-| **Amount**          | `$[Amount]`                  |
-| **Reset Period**    | `[Monthly / Quarterly]`      |
-| **Alert at 50%**    | Notification to `[email]`    |
-| **Alert at 80%**    | Notification to `[email]`    |
-| **Alert at 100%**   | Notification to `[email]`    |
+| **Budget Name**     | `Matatin-Lab-Budget`         |
+| **Amount**          | `$10`                        |
+| **Reset Period**    | `Monthly`                    |
+| **Alert at 50%**    | Notification to `My email`   |
+| **Alert at 80%**    | Notification to `My email`   |
+| **Alert at 100%**   | Notification to `My email`   |
 
 **Steps:**
 
-1. <!-- [e.g. Navigate to Cost Management + Billing → Budgets → + Add] -->
-2. <!-- [Step 2 — setting the budget scope, amount, and reset period] -->
-3. <!-- [Step 3 — adding the 50% alert condition] -->
-4. <!-- [Step 4 — adding the 80% alert condition] -->
-5. <!-- [Step 5 — adding the 100% alert condition] -->
-6. <!-- [Step 6 — adding alert recipients and saving] -->
+1. Navigate to Cost Management + Billing → Budgets → + Add
+2. I then configured the budget, scope, reset period, and alerts
+3. I added the 50% alert condition, 80% alert condition and  100% alert condition
+4. completed by adding the alert recipients email
 
 <img src="https://imgur.com/d85L2md.png" height="80%" width="80%" alt=""/>
 
@@ -172,39 +178,19 @@ I created a budget in Azure Cost Management with three alert thresholds to track
 
 ---
 
-## Part 5 — Resource Tagging Strategy
-
-I applied a consistent tagging strategy across all resources to support cost allocation, governance, and policy compliance.
-
-| Tag Key       | Tag Value Example        | Purpose                            |
-| ------------- | ------------------------ | ---------------------------------- |
-| `Environment` | `[e.g. Dev / Prod]`      | Identifies the environment tier    |
-| `Owner`       | `[Your name or alias]`   | Tracks resource ownership          |
-| `Project`     | `[Lab or project name]`  | Groups resources by project        |
-| `CostCentre`  | `[e.g. Training]`        | Supports cost allocation reporting |
-
-> <!-- [Note — e.g. The tag enforcement policy from Part 2 automatically blocked any resource creation that was missing the Environment tag] -->
-
-<!-- ![Tagging](https://imgur.com/your-image.png) -->
-
----
-
 ## Key Takeaways
 
-- <!-- [e.g. Management Groups let you apply governance controls once across multiple subscriptions] -->
-- <!-- [e.g. Policy 'Deny' effects are powerful — test with 'Audit' first before switching to Deny in production] -->
-- <!-- [e.g. Resource locks exist independently of RBAC — even an Owner cannot delete a CanNotDelete-locked resource without removing the lock first] -->
-- <!-- [e.g. Budget alerts are informational only — Azure does not automatically stop spending when a budget is exceeded] -->
-- <!-- [Add your own takeaway] -->
+- Management Groups let me apply governance controls once across multiple subscriptions
+- Policy 'Deny' effects are powerful — test with 'Audit' first before switching to Deny in production
+- Resource locks exist independently of RBAC — even an Owner cannot delete a CanNotDelete resource without removing the lock first
+- Budget alerts are informational only — Azure does not automatically stop spending when a budget is exceeded
 
 ---
 
 ## Lessons Learned
 
-- <!-- [e.g. I initially scoped the policy assignment to the subscription rather than the Management Group — this meant the policy wouldn't apply to future subscriptions added under the MG, which defeated the purpose of the hierarchy] -->
-- <!-- [e.g. ReadOnly locks surprised me by blocking resource creation inside a locked Resource Group, not just edits to the RG itself] -->
-- <!-- [e.g. Add your own lesson] -->
-
+- I initially scoped the policy assignment to the subscription rather than the Management Group — this meant the policy wouldn't apply to future subscriptions added under the MG, this section will be properly completed for future labs and projects.
+- Applying locks to resources and testing the outcomes became good practice and helped me understand the importance of having different policies running on resources in a tenant, both as a security measure and as an accidental protective measure.
 ---
 
 *Lab completed by [@Nako8k](https://github.com/Nako8k)*
