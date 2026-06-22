@@ -189,8 +189,9 @@ I created a budget in Azure Cost Management with three alert thresholds to track
 
 ## Lessons Learned
 
-- I initially scoped the policy assignment to the subscription rather than the Management Group — this meant the policy wouldn't apply to future subscriptions added under the MG, this section will be properly completed for future labs and projects.
-- Applying locks to resources and testing the outcomes became good practice and helped me understand the importance of having different policies running on resources in a tenant, both as a security measure and as an accidental protective measure.
+- <b>Sort it out</b> — I initially scoped the policy assignment to the subscription rather than the Management Group — this meant the policy wouldn't apply to future subscriptions added under the MG, this section will be properly completed for future labs and projects.
+
+- <b>Locked and Loaded</b> — When confiuring this lab I undertood that applying locks to resources and testing the outcomes became good practice, and helped me understand the importance of having different policies running on resources in a tenant, both as a security measure and as an accidental protective measure, be awear that the NoDeleteLock also applies to `Global Admin`.
 ---
 
 *Lab completed by [@Nako8k](https://github.com/Nako8k)*
